@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "job": {
+    "id": "job_01",
+    "type": "GENERATE_TILES",
+    "datasetId": "dataset_01",
+    "datasetVersionId": "dataset-version_01",
+    "status": "QUEUED",
+    "progress": 0,
+    "priority": 50,
+    "retry": {
+      "retryable": true,
+      "maxRetries": 3,
+      "backoffSeconds": 10
+    },
+    "resources": {
+      "cpu": "2",
+      "memoryMb": 4096,
+      "diskMb": 20480,
+      "timeoutSeconds": 1800
+    },
+    "parameters": {
+      "output": "MVT",
+      "minZoom": 0,
+      "maxZoom": 16
+    },
+    "artifacts": [],
+    "error": null,
+    "timestamps": {
+      "createdAt": "2026-01-01T00:00:00Z",
+      "startedAt": null,
+      "finishedAt": null
+    }
+  },
+  "statuses": [
+    "QUEUED",
+    "RUNNING",
+    "SUCCEEDED",
+    "FAILED",
+    "CANCEL_REQUESTED",
+    "CANCELLED"
+  ],
+  "jobTypes": [
+    "VALIDATE",
+    "NORMALIZE",
+    "GENERATE_TILES",
+    "GENERATE_PREVIEW",
+    "GENERATE_TERRAIN",
+    "GENERATE_POINT_CLOUD_INDEX",
+    "GENERATE_3D_TILES"
+  ]
+}

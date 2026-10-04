@@ -1,0 +1,99 @@
+asyncapi: 2.6.0
+info:
+  title: GIS Platform Event Contract
+  version: 1.0.0
+  description: Versioned asynchronous event envelope for NATS JetStream.
+defaultContentType: application/json
+channels:
+  dataset.created:
+    publish:
+      message:
+        $ref: '#/components/messages/DatasetCreated'
+  dataset.uploaded:
+    publish:
+      message:
+        $ref: '#/components/messages/DatasetUploaded'
+  dataset.validated:
+    publish:
+      message:
+        $ref: '#/components/messages/DatasetValidated'
+  processing.requested:
+    publish:
+      message:
+        $ref: '#/components/messages/ProcessingRequested'
+  processing.completed:
+    publish:
+      message:
+        $ref: '#/components/messages/ProcessingCompleted'
+  processing.failed:
+    publish:
+      message:
+        $ref: '#/components/messages/ProcessingFailed'
+  layer.created:
+    publish:
+      message:
+        $ref: '#/components/messages/LayerChanged'
+  layer.updated:
+    publish:
+      message:
+        $ref: '#/components/messages/LayerChanged'
+components:
+  messages:
+    DatasetCreated:
+      name: DatasetCreated
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    DatasetUploaded:
+      name: DatasetUploaded
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    DatasetValidated:
+      name: DatasetValidated
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    ProcessingRequested:
+      name: ProcessingRequested
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    ProcessingCompleted:
+      name: ProcessingCompleted
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    ProcessingFailed:
+      name: ProcessingFailed
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    LayerChanged:
+      name: LayerChanged
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+  schemas:
+    EventEnvelope:
+      type: object
+      required: [event_id, event_type, version, timestamp, producer, correlation_id, payload]
+      properties:
+        event_id:
+          type: string
+          format: uuid
+        event_type:
+          type: string
+        version:
+          type: integer
+          minimum: 1
+        timestamp:
+          type: string
+          format: date-time
+        tenant_id:
+          type: string
+          format: uuid
+          nullable: true
+        producer:
+          type: string
+        correlation_id:
+          type: string
+        causation_id:
+          type: string
+          nullable: true
+        payload:
+          type: object
+          additionalProperties: true

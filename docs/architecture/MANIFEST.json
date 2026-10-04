@@ -1,0 +1,32 @@
+{
+  "name": "open-source-2d-3d-gis-platform-architecture",
+  "generated": "2026-10-04",
+  "artifacts": [
+    "01-system-context.md",
+    "02-hld.md",
+    "03-lld.md",
+    "04-api-openapi.yaml",
+    "05-event-schema.yaml",
+    "06-database-schema.sql",
+    "07-layer-model.json",
+    "08-processing-job-model.json",
+    "09-license-policy.md",
+    "10-threat-model.md",
+    "11-adr/ADR-001-architecture-style.md",
+    "11-adr/ADR-002-rendering-stack.md",
+    "11-adr/ADR-003-canonical-web-formats.md",
+    "11-adr/ADR-004-object-storage.md",
+    "11-adr/ADR-005-event-bus.md",
+    "11-adr/ADR-006-gis-processing.md",
+    "11-adr/ADR-007-license-policy.md",
+    "11-adr/ADR-008-ai-extension.md",
+    "11-adr/ADR-009-processing-isolation.md",
+    "11-adr/ADR-010-monorepo-first.md",
+    "11-adr/ADR-011-renderer-neutral-domain.md",
+    "12-docker-compose.yml",
+    "13-local-development.md",
+    "14-golden-datasets.md",
+    "README.md"
+  ],
+  "note": "Engineering baseline; exact dependency/container versions must be pinned and license/SBOM scanned before production."
+}

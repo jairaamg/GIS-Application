@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "layer": {
+    "id": "layer_01",
+    "projectId": "project_01",
+    "datasetVersionId": "dataset-version_01",
+    "name": "Terrain",
+    "type": "TERRAIN",
+    "visible": true,
+    "opacity": 1,
+    "minZoom": 0,
+    "maxZoom": 22,
+    "zIndex": 0,
+    "source": {
+      "kind": "TERRAIN_TILES",
+      "urlTemplate": "/api/v1/tiles/terrain/{z}/{x}/{y}",
+      "encoding": "application/octet-stream",
+      "verticalDatum": "SOURCE_DEFINED"
+    },
+    "style": {
+      "terrainExaggeration": 1.0,
+      "colorMode": "ELEVATION",
+      "elevationField": null,
+      "colorRamp": "default"
+    },
+    "interaction": {
+      "pickable": true,
+      "tooltip": true,
+      "hover": true,
+      "click": true
+    },
+    "renderers": {
+      "maplibre": {
+        "enabled": true,
+        "terrain": true
+      },
+      "deckgl": {
+        "enabled": true,
+        "layerClass": "TerrainLayer"
+      }
+    },
+    "metadata": {
+      "createdBy": "system",
+      "tags": [
+        "terrain",
+        "elevation"
+      ]
+    }
+  },
+  "layerTypes": [
+    "VECTOR",
+    "RASTER",
+    "TERRAIN",
+    "POINT_CLOUD",
+    "MESH",
+    "MODEL_3D",
+    "BUILDING",
+    "HEATMAP",
+    "ELEVATION",
+    "ANNOTATION"
+  ]
+}

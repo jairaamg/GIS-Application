@@ -1,0 +1,93 @@
+services:
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: gis
+      POSTGRES_USER: gis
+      POSTGRES_PASSWORD: gis_dev_only
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docs/architecture/06-database-schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gis -d gis"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  nats:
+    image: nats:2
+    command: ["-js", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    volumes:
+      - nats_data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8222/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  valkey:
+    image: valkey/valkey:8
+    ports:
+      - "6379:6379"
+    volumes:
+      - valkey_data:/data
+
+  seaweedfs:
+    image: chrislusf/seaweedfs:3
+    command: ["server", "-dir=/data", "-s3"]
+    ports:
+      - "8333:8333"
+      - "9000:9000"
+      - "9333:9333"
+    volumes:
+      - seaweed_data:/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26
+    command: ["start-dev"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin_dev_only
+    ports:
+      - "8080:8080"
+
+  api:
+    build:
+      context: ./apps/api-gateway
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://gis:gis_dev_only@postgres:5432/gis
+      NATS_URL: nats://nats:4222
+      VALKEY_URL: redis://valkey:6379/0
+      OBJECT_STORE_ENDPOINT: http://seaweedfs:8333
+      OIDC_ISSUER: http://keycloak:8080/realms/gis
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./apps/web
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000/api/v1
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  nats_data:
+  valkey_data:
+  seaweed_data:
